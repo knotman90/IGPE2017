@@ -1,0 +1,175 @@
+# Introduction to Java
+
+
+##Why the name Java?
+Java was initially called Oak after an oak tree that stood outside James Gosling's office; it went by the name Green later, and was later renamed Java, from Java coffee, said to be consumed in large quantities by the language's creators. This also tells the story behind the logo of java. [https://www.quora.com/Why-is-Java-called-so]
+
+## Hello World
+
+. Install Java SDK. Both javac and java must be available in the system. 
+
+```bash
+java -version
+```
+should shows something like the following:
+
+```
+java version "1.8.0_05"
+Java(TM) SE Runtime Environment (build 1.8.0_05-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 25.5-b02, mixed mode)
+
+```
+---
+*HelloWorld.java*
+```java
+public class HelloWorldApp
+{
+  
+  public static char bar(int a, int b){
+   return (char)(a+b);
+  }
+  // arguments are passed using the text field below this editor
+  public static void main(String[] args)
+  {
+    String s="Hello Worl";
+    
+    System.out.println(s+bar(50,50));
+  
+  }
+}
+
+
+
+```
+
+- Note that Java is *case senitive*
+- Compile using the `java` compiler.
+- Note that compiled `java` code is not native code, infact techincally speaking that is not a compiler.  Jacav compiler translates java code into something called *bytecode* which the underlying java VM can understand and executes. The bytecode then is compiled to machine-code using a Just-In-Time compiler within the JVM. The Java Virtual Machine is a sort of a minicomputer (that's why it is called a virtual machine) that executes your Java bytecode.
+- 
+***
+Inline-style: 
+![alt text](images/javaC.png "From java code to Native code Workflow.")
+***
+- Compile: `javac HelloWorld.java` producing the bytecode `HelloWorldApp.class`
+- Execute using the `java JRE` (Java Runtime Environment): `java HelloWorldApp`
+
+##Bytecode - What's under the hood?
+- See what `javac` has generated using an hex editor of your choice (`bless` or `xxd` on Linux might be a good choice)
+```
+CA FE BA BE 00 00 00 34 00 1D 0A 00 06 00 0F 09 00 10 00 11 08
+00 12 0A 00 13 00 14 07 00 15 07 00 16 01 00 06 3C 69 6E 69 74
+3E 01 00 03 28 29 56 01 00 04 43 6F 64 65 01 00 0F 4C 69 6E 65
+4E 75 6D 62 65 72 54 61 62 6C 65 01 00 04 6D 61 69 6E 01 00 16
+28 5B 4C 6A 61 76 61 2F 6C 61 6E 67 2F 53 74 72 69 6E 67 3B 29
+56 01 00 0A 53 6F 75 72 63 65 46 69 6C 65 01 00 12 48 65 6C 6C
+6F 57 6F 72 6C 64 41 70 70 2E 6A 61 76 61 0C 00 07 00 08 07 00
+17 0C 00 18 00 19 01 00 0C 48 65 6C 6C 6F 20 57 6F 72 6C 64 21
+07 00 1A 0C 00 1B 00 1C 01 00 0D 48 65 6C 6C 6F 57 6F 72 6C 64
+41 70 70 01 00 10 6A 61 76 61 2F 6C 61 6E 67 2F 4F 62 6A 65 63
+74 01 00 10 6A 61 76 61 2F 6C 61 6E 67 2F 53 79 73 74 65 6D 01
+00 03 6F 75 74 01 00 15 4C 6A 61 76 61 2F 69 6F 2F 50 72 69 6E 
+```
+- Each pair of number ( 1 byte) is directly translatable to an instruction. For instance the highlighted `3C` translates to *store int  into variable 1*. Read here for more informations: <https://en.wikipedia.org/wiki/Java_bytecode_instruction_listings>
+- `javap -c` translates bytecode to a mnemonic representation saving us an headache. Try `javap -c HelloWorldApp.class`
+
+```java
+Compiled from "HelloWorldApp.java"
+public class HelloWorldApp {
+  public HelloWorldApp();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static char bar(int, int);
+    Code:
+       0: iload_0
+       1: iload_1
+       2: iadd
+       3: i2c
+       4: ireturn
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: ldc           #2                  // String Hello Worl
+       2: astore_1
+       3: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+       6: new           #4                  // class java/lang/StringBuilder
+       9: dup
+      10: invokespecial #5                  // Method java/lang/StringBuilder."<init>":()V
+      13: aload_1
+      14: invokevirtual #6                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      17: bipush        50
+      19: bipush        50
+      21: invokestatic  #7                  // Method bar:(II)C
+      24: invokevirtual #8                  // Method java/lang/StringBuilder.append:(C)Ljava/lang/StringBuilder;
+      27: invokevirtual #9                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      30: invokevirtual #10                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      33: return
+}
+
+```
+
+- Take a closer look to the `bar` function.
+- Note the # as operand of some functions. Those are references to *constant objects in the constant pool of the class*. 
+- Run `javap -c -s -verbose HelloWorldApp.class` to take a closer look to that. 
+- Number at left of the instructions represent their position within the **frame**. Each thread in the JAVA execution mode (and of most of the today's languages) has a so called **stack** which stores **frames**. A frame is created whenever a method (that's name for functions in java) is created. It consists of three main parts: an array of local variables, a set of references to a pool of constant objects and a stack of operands. The stack is used to push or pop values within the lifetime and execution of the method.For instance the bar method loads two elements on the stack (presumibly the operands) and then invokes the `iadd` function which actually performs the addition.
+-The following is the actual bytecode for the bar method:  `
+1A 1B 60 92 AC`
+
+
+![Java Frame](images/jvm-stack-configuration "Java frame.")
+
+
+
+##Examples
+
+###Example - 1 - Basic Sorting
+Allocate a vector of int of size N (read from stdin). Populate it using Random positive numbers in the interval [1..N]. 
+Write two method for sorting arrays. 
+- Bubble sort (5 mins)
+- Merge Sort (15 mins)
+
+Sort the aforementioned array using the methods.
+
+### Example  - 2 - Sorting using Collections
+Insted of using a basic array, use a `Vector` and run the java Collestion's built-in sorting method to sort the array ` Collections.sort`.
+```java
+static
+<T extends Comparable<? super T>> 
+void
+sort(List<T> list) 
+          Sorts the specified list into ascending order, according to the natural ordering of its elements.
+static
+<T> void
+sort(List<T> list, Comparator<? super T> c) 
+          Sorts the specified list according to the order induced by the specified comparator.
+```
+- Note that you can use your own comparator. 
+- Write a custom comparator and sort the Collection using it.
+- Under the hood, `Collection.sort` uses merge-sort which is known for having complexity of `O(nlogn)`. **What is the requirement on the complexity of the comparator in order for the overall complexity of the sorting procedure not to grow?**
+
+- *What happen if you want to sort a custom class which requires __linear-time__ comparison?*
+
+
+### Example  - 2 - BookStore
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
