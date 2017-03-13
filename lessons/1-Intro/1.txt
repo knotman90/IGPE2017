@@ -4,9 +4,19 @@
 ##Why the name Java?
 Java was initially called Oak after an oak tree that stood outside James Gosling's office; it went by the name Green later, and was later renamed Java, from Java coffee, said to be consumed in large quantities by the language's creators. This also tells the story behind the logo of java. [https://www.quora.com/Why-is-Java-called-so]
 
+
+## First Steps
+1. Install Java JDK - *It's the full featured Software Development Kit for Java, including JRE, and the compilers and tools (like JavaDoc, and Java Debugger) to create and compile program*.
+ 
+2.  Visit <https://docs.oracle.com/javase/8/docs/technotes/guides/install/install_overview.html> to read about installation on your platform. Smasll examples may also be executed online on <https://www.ideone.com>
+
+3. Install Eclipse (Check how many of them have experience with eclipse) from: <https://www.eclipse.org/downloads/eclipse-packages/>
+
+Eclipse is not necessary! It is a good IDE for JAVA. Other options are Netbeans <https://netbeans.org/downloads/> or IntelliJIDEA <https://www.jetbrains.com/idea/>
+
 ## Hello World
 
-. Install Java SDK. Both javac and java must be available in the system. 
+1. Both javac and java must be available in the system. 
 
 ```bash
 java -version
@@ -38,14 +48,76 @@ public class HelloWorldApp
   }
 }
 
-
-
 ```
+
 
 - Note that Java is *case senitive*
 - Compile using the `java` compiler.
 - Note that compiled `java` code is not native code, infact techincally speaking that is not a compiler.  Jacav compiler translates java code into something called *bytecode* which the underlying java VM can understand and executes. The bytecode then is compiled to machine-code using a Just-In-Time compiler within the JVM. The Java Virtual Machine is a sort of a minicomputer (that's why it is called a virtual machine) that executes your Java bytecode.
-- 
+
+## Hello World 2
+**Importance of commenting the code** Especially when working in a team. *Documentation will be evaluated.*
+
+Use ```java.util.Scanner``` to read input from stdin.
+
+```java
+import java.io.Console;
+import java.util.Scanner;
+
+public class HelloWorld {
+
+	//input reader
+	final Scanner s = new Scanner(System.in);
+
+	//read from stdin
+	public void fancyCalculator(){
+		System.out.println("JAVA first calulator");
+		while(true){
+			//operands
+			int l,r;
+			System.out.println("Type the 1 operand");
+			l=s.nextInt();
+			System.out.println("Type the 2 operand");
+			r=s.nextInt();
+			//output the sum of the two number
+			final int ans = l+r;
+			System.out.print("-> ");
+			System.out.println(ans);
+		}
+
+	}
+
+	public static void main(String[] args) {
+		HelloWorld calculator = new HelloWorld();
+		calculator.fancyCalculator();
+	}
+}
+
+```
+
+##Hello Classes
+A class is a descrition both the **state** and the **behaviour** of an Object.
+Think about the state of a traffic light. At any point what are the possible state a traffic light can be?
+
+Do computer programs have a state? If yes what are the *variables* of a computer program state?
+
+###Bookstore
+What are getters and setters? 
+Show how to automatically generate them using *eclipse*
+
+- *Source -> Generate Getters and Setters*
+
+##Java Basics
+
+Java is **Object Oriented** ans so supports concepts like:
+
+- Classes
+- Objects
+- Polymorphism
+- Inheritance
+- Encapsulation
+- Abstraction
+
 ***
 Inline-style: 
 ![alt text](images/javaC.png "From java code to Native code Workflow.")
@@ -117,9 +189,10 @@ public class HelloWorldApp {
 -The following is the actual bytecode for the bar method:  `
 1A 1B 60 92 AC`
 
-
+***
 ![Java Frame](images/jvm-stack-configuration "Java frame.")
 
+***
 
 
 ##Examples
@@ -130,7 +203,7 @@ Write two method for sorting arrays.
 - Bubble sort (5 mins)
 - Merge Sort (15 mins)
 
-Sort the aforementioned array using the methods.
+Sort the  array using the aforementioned methods.
 
 ### Example  - 2 - Sorting using Collections
 Insted of using a basic array, use a `Vector` and run the java Collestion's built-in sorting method to sort the array ` Collections.sort`.
