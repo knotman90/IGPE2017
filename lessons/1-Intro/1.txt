@@ -107,6 +107,67 @@ Show how to automatically generate them using *eclipse*
 
 - *Source -> Generate Getters and Setters*
 
+```java
+package BookStore;
+
+import java.util.Date;
+
+public class Book {
+	
+	private String author;
+	private Date year;
+	private int npages;
+	private String ISBN;
+	
+
+}
+```
+```java
+package BookStore;
+
+public class BookStore {
+
+	private Book[] library;
+
+	/*number of book inserted*/
+	private int size;
+	/* Maximum capacity of the bookstore*/
+	private int capacity;
+
+	public BookStore(int _capacity) {
+		capacity = _capacity;
+		assert(capacity>0);
+
+		library= new Book[capacity];
+		size=0;
+	}
+
+	public void addBook(Book b){
+		library[size] = b;
+		size++;
+
+		//short version
+		//library[size++] = b;
+	}
+
+	public void removeBook(Book b){
+        
+	}
+
+	public void removeBook(int b){
+
+	}
+
+	public void searchForBook(Book b){
+
+	}
+}
+```
+
+**How to implement the remove method?**
+
+**What about the search method?**
+
 ##Java Basics
 
 Java is **Object Oriented** ans so supports concepts like:
@@ -228,6 +289,96 @@ sort(List<T> list, Comparator<? super T> c)
 ### Example  - 2 - BookStore
 ...
 
+
+#Creating and Destroying Objects
+## Static **Factory Methods** 
+- Allows construction of instances of class with methods that have a **meaningful** name
+
+- They are not required to create a new object each time they are invoked. They can also manage cache of instance of a class to improve performance. Image how much this can be helpful in case construction is expensive.
+
+- They can return object of any subclass or interface. `EnumSet` implementation for instance has no public constructor but only a static factory method which rturn two different `EnumSet` implementation according to the size of the enum. The client only agree that the returned object impelements a common interface. If the developer adds one or more case client code does not change!
+
+- Class that do not provide public or protected constructor cannot be subclassed!
+
+- Constructors stand out in documentation while static factory methods are just normal methods which sometimes can be hard to spot, especially in large and complex class documentation.
+There are convention about the name of factory methods that might help on this. Common names are 
+
+- `valueOf` act like a type conversion type (See Boolean)
+
+-getInstance which return an instance described nby the parameters. Singleton uses this naming heavily.
+
+- `newInstance` which garantee (in a opposite fashing with singleton) that all objects are different from the others
+
+**Take with you**: factory methods are useful so consider them before providing public constructors!
+
+
+##Builder
+
+Static factory methods and constructors share the same limitation. They do not scale when the number of paramtersw getr larger and larger. 
+When you have large number of parameters what you usually do is provide constructors with *one*, *two*, *three*, etc. number of parameters so the client can invoke the less wordy one.
+This approach is not optimal though in case objects with many parameters (100 for instance) and are very hard to read. 
+Alternatively you can use the Java Bean Approach where constructors are not provided and client manually set fields. This approach works but requires client to write a lot of code (possibly). Plus, since construction is not atomic (client makes a number of calls to `set` methods) the object might be in a inconsistent state during construction. Checking the validity of the parameters is harder since the check has to be decoupled from the construction. Beans cannot be **immutable**, by definition.
+
+- Builder mix the advantages of both approaches, safety of  *telescoping* and readibility of Beans.
+
+```java
+// Builder Pattern
+public class NutritionFacts {
+    private final int servingSize;
+    private final int servings;
+    private final int calories;
+    private final int fat;
+    private final int sodium;
+    private final int carbohydrate;
+    
+    public static class Builder {
+        // Required parameters
+        private final int servingSize;
+        private final int servings;
+        // Optional parameters - initialized to default values
+        private int calories = 0;
+        private int fat = 0;
+        private int carbohydrate = 0;
+        private int sodium = 0;
+        public Builder(int servingSize, int servings) {
+            this.servingSize = servingSize;
+            this.servings = servings;
+        }
+        public Builder calories(int val) {
+            calories = val;
+            return this;
+        }
+        public Builder fat(int val) {
+            fat = val;
+            return this;
+        }
+        public Builder carbohydrate(int val) {
+            carbohydrate = val;
+            return this;
+        }
+        public Builder sodium(int val) {
+            sodium = val;
+            return this;
+        }
+        public NutritionFacts build() {
+            return new NutritionFacts(this);
+        }
+    }//builder
+    
+    private NutritionFacts(Builder builder) {
+        servingSize = builder.servingSize;
+        servings = builder.servings;
+        calories = builder.calories;
+        fat = builder.fat;
+        sodium = builder.sodium;
+        carbohydrate = builder.carbohydrate;
+    }
+    
+}
+
+```
+Using `Builder` is easy since you create  a builder for a class and using Beans stile calls you set only the parameters needed and then the `build()` calls take care of checking invariants, consistency of required and optional parameters. If any invariants is violated then it might raise an exception.
+Builder is flexible. This about how it can fills some fields automatically, possibly based on some input parameter (for instance the first N parameters using subsequents number`).
 
 
 
