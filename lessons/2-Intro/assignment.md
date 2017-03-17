@@ -1,7 +1,8 @@
 #Assignment 
 
 
-Given the following interface:
+Given the following interface which exposes a method `collide` which takes a non modifiable **Collidable** as parameter returns true if `caller` collides with the given `Collidable` parameter.
+
 ```java
 
 public interface Collidable {
@@ -11,12 +12,11 @@ public interface Collidable {
 
 ```
 
- Exposes a method `collide` Which takes a non modifiable **Collidable** as parameter returns true if `this` collides with the given `Collidable` parameter.
-
 Create a class **Box** which implements `Collidable` and stores fiels describing a  2D box in space.
  
 ***
- Two boxes collides if they share some portion on the space. This is a blurry definition, you have to come up with a more formal and mathematical description of what collision means.
+ Two boxes collides if they share some portion on the space. 
+* This is a blurry definition, you have to come up with a more formal and mathematical description of what collision means.*
 
 `Box` must also override the `toString` method from `Object` superclass.
 
@@ -26,7 +26,7 @@ Pink and blue boxes are colliding while green and blue are not for instance.
 
 
 Create a class Arena which stores information about a set of Collidable Objects and exposes a method with the following signatures. 
-`Area` also stores an array of `Collidable` which size never exceed `1000`;
+`Arena` also stores an array of `Collidable` which size (can be assumed) never exceed `1000`;
 
 ```java
 
