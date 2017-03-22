@@ -1,8 +1,11 @@
 package BookStore;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
+
+import Sorting.BubbleSorter;
 
 public class BookStore {
 
@@ -24,7 +27,28 @@ public class BookStore {
 	
 	
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String s = "BookStore [library=" + Arrays.toString(library) + ", size="
+				+ size + ", capacity=" + capacity +" elements= " ;
+		StringBuilder sb = new StringBuilder();
+		sb.append(s);
+		for (int i = 0; i < library.length; i++) {
+			sb.append(library[i].toString() + " ");
+			
+		}
+		return sb.toString();
+	}
+
+
+
+
 	public void addBook(Book b){
+		if(size >= capacity)
+			throw new IllegalArgumentException("Exceeded capacity");
 		library[size] = b;
 		size++;
 
@@ -42,5 +66,9 @@ public class BookStore {
 
 	public void searchForBook(Book b){
 
+	}
+	
+	public void sort(){
+		BubbleSorter.sort(library);
 	}
 }

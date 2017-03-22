@@ -2,6 +2,8 @@ package BookStore;
 
 import java.util.Date;
 
+import Sorting.IComparable;
+
 /**
 * A object representing a simplified version of a book.
 * A book has a Date of publishing, an author, a number of pages expressed as an integer and 
@@ -9,7 +11,7 @@ import java.util.Date;
 * 
 * @author Davide Spataro
 */
-public class Book {
+public class Book implements IComparable{
 	
 	private String author;
 	private Date year;
@@ -62,6 +64,29 @@ public class Book {
 	 */
 	public void setISBN(String iSBN) {
 		ISBN = iSBN;
+	}
+	
+	/**
+	 * A Book compares strictly greater than another if 
+	 * year > rhs.year || (year == rhs.year) && npages > rhs.npages
+	 */
+	@Override
+	public boolean compare(IComparable book) {
+		Book rhs = (Book)book;
+		if(year.after(rhs.getYear())) 
+				return true;
+		else
+			if(year.equals(rhs.year) && npages > rhs.npages)
+				return true;
+		return false;		
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Book [author=" + author + ", year=" + year + ", npages="
+				+ npages + ", ISBN=" + ISBN + "]";
 	}
 	
 

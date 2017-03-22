@@ -42,7 +42,7 @@ public class Arena {
 
 	}
 
-	private void handleCollision(Collidable A, Collidable B) {
+	private void handleCollision(ICollidable A, ICollidable B) {
 		System.out.println("Collision: " +  A.toString()+ " "+ B.toString());
 
 	}

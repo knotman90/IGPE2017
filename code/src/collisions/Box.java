@@ -2,7 +2,7 @@ package collisions;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class Box implements Collidable{
+public class Box implements ICollidable{
 
 	private int x;
 	private int y;
@@ -20,7 +20,7 @@ public class Box implements Collidable{
 	}
 	
 	@Override
-	public boolean collide(Collidable c) {
+	public boolean collide(ICollidable c) {
 		int AX,AY,BX,BY;
 		if(c instanceof Box){
 			Box bc = (Box)c;
