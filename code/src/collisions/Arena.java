@@ -5,8 +5,8 @@ import java.util.Random;
 public class Arena {
 
 
-	public final static int SIZE = 100;
-	Box[] objects;
+	public final static int SIZE = 20;
+	private Box[] objects;
 	
 	char [][] arena = new char[SIZE][SIZE];
 
@@ -19,7 +19,7 @@ public class Arena {
 	}
 	public void initArena(){
 		Random r = new Random(System.currentTimeMillis());
-		int NO = 5;
+		int NO = 2;
 		objects = new Box[NO];
 		for(int i=0; i<NO; i++){
 			int x,y,w,h;

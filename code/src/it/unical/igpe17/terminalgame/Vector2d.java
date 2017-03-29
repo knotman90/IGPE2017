@@ -1,15 +1,27 @@
-package it.unical.it.igpe2017.arkanoid.core.utils;
+package it.unical.igpe17.terminalgame;
 public  class Vector2d {
 
-	    private final double x;
-	    private final double y;
+		public static Vector2d ZERO = new Vector2d(0, 0);
+	
+	    private  double x;
+	    private  double y;
 
+	    
+	    @Override
+	    public String toString() {
+	    String s= "["+x+" "+y+"]";
+	    return s;
+	    }
 	    public Vector2d(double x, double y){
 	        this.x = x;
 	        this.y = y;
 	        
 	    }
 
+	    public Vector2d approx(){
+	   
+	    	return new Vector2d(Math.rint(x), Math.rint(y));
+	    }
 	    public Vector2d minus(Vector2d s) {
 	        return new Vector2d(x - s.x, y - s.y);
 	    }
@@ -41,6 +53,20 @@ public  class Vector2d {
 
 	    public double getY() {
 			return y;
+		}
+
+		/**
+		 * @param x the x to set
+		 */
+		public void setX(double x) {
+			this.x = x;
+		}
+
+		/**
+		 * @param y the y to set
+		 */
+		public void setY(double y) {
+			this.y = y;
 		}
 
 

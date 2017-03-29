@@ -2,6 +2,6 @@ package collisions;
 
 public interface ICollidable {
 	
-	public boolean collide(ICollidable c);
+	public boolean collide(ICollidable c) ;
 
 }

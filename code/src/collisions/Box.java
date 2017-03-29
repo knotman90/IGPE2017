@@ -1,6 +1,6 @@
 package collisions;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 
 public class Box implements ICollidable{
 
@@ -19,8 +19,12 @@ public class Box implements ICollidable{
 		h=_h;
 	}
 	
+	/**
+	 * AABB algorithm
+	 * ref: 
+	 */
 	@Override
-	public boolean collide(ICollidable c) {
+	public boolean collide(ICollidable c)  {
 		int AX,AY,BX,BY;
 		if(c instanceof Box){
 			Box bc = (Box)c;
@@ -29,16 +33,14 @@ public class Box implements ICollidable{
 			AX=x+w;
 			AY=y+h;
 			return !( (AX < bc.x) || (BX < x) || (AY < bc.y) || (BY < y) );
-			
-		}else
-			throw new NotImplementedException();
-				
+		}
+		return false;			
 	}
 
 	
 	@Override
 	public String toString() {
-		String s = " " +x+":" +y+"-"+w+":"+h;
+		String s = x+":" +y+"-"+w+":"+h;
 		return s;
 		
 	}
