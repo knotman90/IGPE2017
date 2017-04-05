@@ -42,10 +42,22 @@ public abstract class AbstractGameObject implements IGameObject{
 //		}
 	}
 	
+	
+	private Vector2d computeNewVelocity(Vector2d vel, Vector2d force,
+			double dt) {
+		
+			return vel.add(force.scale(dt));
+	}
+	private Vector2d computeNewPosition(Vector2d position2, Vector2d velocity2,
+			double dt) {
+		return position2.add(velocity2.scale(dt));
+	}
+	
 	@Override
 	public void move(final double dt) {
 		applyGravity(dt);
 		
+	//	Vector2d newVelocity = computeNewVelocity(getVelocity(), getForce(), dt);
 		setVelocity(
 				getVelocity().add(
 						getForce().scale(dt)
@@ -57,13 +69,18 @@ public abstract class AbstractGameObject implements IGameObject{
 			setVelocity(nv);
 		}
 		
+		//Vector2d newPosition = computeNewPosition(getPosition(),getVelocity(),dt);
+		
 		setPosition(getPosition().add(getVelocity().scale(dt)));
 		if(getPosition().getY()+getSize().getY() >= GameConfig.HEIGHT)
 			getPosition().setY((int)GameConfig.HEIGHT-getSize().getY());
-		
-		
+	
 	}
 	
+
+
+	
+
 	@Override
 	public Vector2d getPosition() {
 		return position;

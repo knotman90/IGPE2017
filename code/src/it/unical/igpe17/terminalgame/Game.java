@@ -80,7 +80,6 @@ public class Game {
 				Obstacle ob = new Obstacle(new Vector2d(GameConfig.WIDTH-GameConfig.SIZE_OBSTALCE_X-1, GameConfig.HEIGHT-GameConfig.SIZE_OBSTALCE_Y-1),new Vector2d(GameConfig.SIZE_OBSTALCE_X, GameConfig.SIZE_OBSTALCE_Y));
 				ob.setVelocity(new Vector2d(-1*speed, 0));
 				gameObjects.add(ob);
-				
 			}
 			lastSpawn = t;
 		}

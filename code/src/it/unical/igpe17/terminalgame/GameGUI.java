@@ -3,6 +3,7 @@ package it.unical.igpe17.terminalgame;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameGUI {
@@ -14,9 +15,9 @@ public class GameGUI {
 	Game g;
 
 
-	IDrawer pd = new PlayerDrawer(); //player drawers
+	IDrawer pd = new BasicDrawer(); //player drawers
 	ObstacleDrawer od = new ObstacleDrawer();
-	LinkedList<IDrawer> osd; //obstacoles Drawers
+	List<IDrawer> osd; //obstacoles Drawers
 
 	StringBuilder sb ;
 	char[][] pixels;
@@ -32,13 +33,7 @@ public class GameGUI {
 
 
 	void createGame(){
-
-
 		g = new Game(HEIGHT,WIDTH);
-
-
-
-
 	}
 
 
