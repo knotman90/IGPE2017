@@ -1,0 +1,631 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   IGPE2017 - Lesson 2
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   h1,h2,h3,h4{color:#6495ed}body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}body{font-family:Helvetica,Arial,sans-serif}h1,h2{text-align:center}blockquote{background:#f9f9f9;border-left:10px solid #6495ed;margin:1.5em 10px;padding:.5em 10px;font-style:italic}blockquote p{display:inline}hr{clear:both;float:none;width:100%;height:2.5px;margin:1.4em 0;border:none;background:#ddd;background:-webkit-gradient(linear,left bottom,right bottom,color-stop(0,#fff),color-stop(.1,#ddd),color-stop(.9,#ddd),color-stop(1,#fff)) #ddd;background:-moz-linear-gradient(left center,#fff 0,#ddd 10%,#ddd 90%,#fff 100%) #ddd}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr th{font-weight:700}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none;background:0 0}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h1 id="lesson-2">
+   Lesson 2
+  </h1>
+  <h1 id="big-numbers">
+   Big Numbers
+  </h1>
+  <p>
+   Write a function which computes the integral power:
+   <mathjax>
+    $n^k$
+   </mathjax>
+  </p>
+  <pre><code class="java">    public static int ipow(final int n, final int k){
+        if(k==0)
+            return 1;
+        int ans =n;
+        for(int i=1; i&lt;k ; i++){
+            ans*=n;
+        }
+        return ans;
+    }
+</code></pre>
+  <p>
+   Unfortunately this function stop working quite soon:
+  </p>
+  <pre><code class="java">    public static void main(String[] args) {
+        int n=2;
+        for(int i=0;i&lt;100 ; i++)
+            System.out.println(n+"^"+i + "\t"+ ipow(n, i));
+    }
+</code></pre>
+  <pre><code>2^0     1
+2^1     2
+2^2     4
+2^3     8
+2^4     16
+2^5     32
+2^6     64
+2^7     128
+2^8     256
+2^9     512
+2^10    1024
+2^11    2048
+2^12    4096
+2^13    8192
+2^14    16384
+2^15    32768
+2^16    65536
+2^17    131072
+2^18    262144
+2^19    524288
+2^20    1048576
+2^21    2097152
+2^22    4194304
+2^23    8388608
+2^24    16777216
+2^25    33554432
+2^26    67108864
+2^27    134217728
+2^28    268435456
+2^29    536870912
+2^30    1073741824
+2^31    -2147483648
+2^32    0
+2^33    0
+2^34    0
+2^35    0
+2^36    0
+2^37    0
+2^38    0
+2^39    0
+...
+</code></pre>
+  <p>
+   Yes you say the problem is that
+   <code>
+    int
+   </code>
+   cannot hold large number as
+   <mathjax>
+    $2^{31}$
+   </mathjax>
+   .
+   <br/>
+   Let’s write a new version which does not (in our dreams)
+   <strong>
+    overflow
+   </strong>
+   :
+  </p>
+  <pre><code class="java">public static long ipow(final long n, final long k){
+        if(k==0)
+            return 1;
+        long ans =n;
+        for(int i=1; i&lt;k ; i++){
+            ans*=n;
+        }
+        return ans;
+    }
+</code></pre>
+  <pre><code>2^0     1
+2^1     2
+2^2     4   
+2^3     8
+2^4     16
+2^5     32
+2^6     64
+2^7     128
+2^8     256
+2^9     512
+2^10    1024
+2^11    2048
+2^12    4096
+2^13    8192
+2^14    16384
+2^15    32768
+2^16    65536
+2^17    131072
+2^18    262144
+2^19    524288
+2^20    1048576
+2^21    2097152
+2^22    4194304
+2^23    8388608
+2^24    16777216
+2^25    33554432
+2^26    67108864
+2^27    134217728
+2^28    268435456
+2^29    536870912
+2^30    1073741824
+2^31    2147483648
+2^32    4294967296
+2^33    8589934592
+2^34    17179869184
+2^35    34359738368
+2^36    68719476736
+2^37    137438953472
+2^38    274877906944
+2^39    549755813888
+2^40    1099511627776
+2^41    2199023255552
+2^42    4398046511104
+2^43    8796093022208
+2^44    17592186044416
+2^45    35184372088832
+2^46    70368744177664
+2^47    140737488355328
+2^48    281474976710656
+2^49    562949953421312
+2^50    1125899906842624
+2^51    2251799813685248
+2^52    4503599627370496
+2^53    9007199254740992
+2^54    18014398509481984
+2^55    36028797018963968
+2^56    72057594037927936
+2^57    144115188075855872
+2^58    288230376151711744
+2^59    576460752303423488
+2^60    1152921504606846976
+2^61    2305843009213693952
+2^62    4611686018427387904
+2^63    -9223372036854775808
+2^64    0
+2^65    0
+2^66    0
+2^67    0
+2^68    0
+</code></pre>
+  <p>
+   We extended the range of our function up to
+   <mathjax>
+    $2^{62}$
+   </mathjax>
+   but it’s still failing.
+   <br/>
+   We need an integral type with
+   <strong>
+    infinite precision
+   </strong>
+   .
+   <code>
+    BigInteger
+   </code>
+   provided by
+   <code>
+    Java.Utils
+   </code>
+   solves the problem.
+  </p>
+  <pre><code class="java">    public static BigInteger ipow(final long n, final long k){
+        if(k==0)
+            return BigInteger.ONE;
+        BigInteger bin = BigInteger.valueOf(n);
+        BigInteger bians = bin;
+        for(int i=1; i&lt;k ; i++){
+            bians=bians.multiply(bin);
+        }
+        return bians;
+    }
+</code></pre>
+  <p>
+   This version works! even for very large numbers like
+   <mathjax>
+    $2^{20000}$
+   </mathjax>
+   .
+  </p>
+  <pre><code>2^20000 39802768403379665923543072061912024537047727804924259387134268656523863597493005704267600974997559551083646113750491270283140037693531914362175347041582702598121528242689349822482661597770759553946696101958869972677227973194131519818278726403485282
+...
+</code></pre>
+  <p>
+   Imagine now you want to compute number much larger than
+   <mathjax>
+    $2^{20000}$
+   </mathjax>
+   . You soon realize that this takes quite a while using this approach.
+   <br/>
+   Infact the following code runs quite slowly (~
+   <code>
+    6s
+   </code>
+   on my Intel
+   <code>
+    i5
+   </code>
+   )
+  </p>
+  <pre><code class="java">public static void main(String[] args) {
+        int n=2;
+        long s = System.currentTimeMillis();
+        for(int i=0;i&lt;500000 ; i++)
+            if(i==400000)
+                System.out.println(n+"^"+i + "\t"+ ipow(n, i));
+        long e = System.currentTimeMillis();
+
+        System.out.println((double)(e-s)/1000.0);
+    }
+</code></pre>
+  <p>
+   That is due to the fact that we are not using the best algorithm available for computing integer power:
+  </p>
+  <pre><code class="java">    public static BigInteger ipow(final int n, final int k){
+        if(k==0)
+            return BigInteger.ONE;
+        if(k==1)
+            return BigInteger.valueOf(n);
+        if((k&amp;1)==1)
+            return ipow(n,k-1).multiply(BigInteger.valueOf(n));
+
+        BigInteger res = ipow(n,k/2); 
+        return (res).multiply(res);
+        //return ipow(n,k/2).multiply(ipow(n,k/2));
+
+    }
+
+ipow(2,22) 
+    ipow(2,11)                                  -&gt; return ipow(2,10) *n
+      ipow(2,10)                                -&gt; return ipow(2,5) * ipow(2,5)
+          ipow(2,5)                     -&gt; return ipow(2,4) * n
+              ipow(2,4)             -&gt; return ipow(2,2)+ipow(2*2)
+                  ipow(2,2)     -&gt; return n*n  
+                    ipow(2,1)-&gt; return n;
+
+
+time -&gt;--------------------------------------------------------------                     
+
+</code></pre>
+  <p>
+   The same main now runs in
+   <code>
+    ~0.18s
+   </code>
+   . A speedup of
+   <code>
+    ~33x
+   </code>
+   !
+  </p>
+  <h1 id="garbage-collection-and-immutable-strings">
+   Garbage Collection and Immutable Strings
+  </h1>
+  <p>
+   Java String does not provide any methods for modifying a string! That makes Strings
+   <code>
+    immutable
+   </code>
+   .
+  </p>
+  <p>
+   This is what happen you do
+  </p>
+  <pre><code class="java">String s = "hello";
+s = s.substring(0,3) + " blabla";
+</code></pre>
+  <pre><code class="c++">char* temp = malloc(9);
+strncpy(temp, greeting, 3);
+strncpy(temp + 3, "blabla", 6);
+greeting = temp;
+</code></pre>
+  <p>
+   What happens if a String is assigned to another string like in the following?
+  </p>
+  <pre><code class="java">String s = "hello";
+...
+
+s = "bye bye old string";
+</code></pre>
+  <p>
+   This is the perfect receipt for a memory leak.
+   <code>
+    s
+   </code>
+   was allocated on the heap and is now thrown away.
+   <br/>
+   Java takes care of memory leaks like this using a
+   <strong>
+    garbage collector
+   </strong>
+   !
+  </p>
+  <p>
+   Java does not provide an deallocation mechanism because the garbage collector keeps track of all the object that cannot can be still referenced. Those who are not referenceable are deallocated by the JVM.
+  </p>
+  <p>
+   It has three main tasks:
+   <br/>
+   1. Garbage detection i.e. understand when an object is now garbage.
+   <br/>
+   2. Deallocate the heap referenced by the detected garbage
+   <br/>
+   3. Minimize Heap Fragmentation (more in a operating system course)
+  </p>
+  <p>
+   <strong>
+    GC
+   </strong>
+   marks all the objects  that are reachable starting from the root object and at the end of this operationg it can free the memory of those object which are not marked.
+  </p>
+  <p>
+   <img alt="heap roots" src="images/heap-roots.png" title="Collision detection in 2D"/>
+   <br/>
+   Pink and blue boxes are colliding while green and blue are not for instance.
+  </p>
+  <p>
+   What you have to know at this point about fragmentation is that when a a large number of allocation and deallocation take place in the heap it is not hard to have a situation where an object cannot be allocated because the heap is lacking of subsequent space even if the overall free space in the heap is much larger than the amount required to allocate the new object.
+  </p>
+  <p>
+   At this point you should have covered everything about syntax and have seen concepts like
+   <br/>
+   -
+   <code>
+    Exceptions
+   </code>
+   <br/>
+   -
+   <code>
+    Collection
+   </code>
+  </p>
+  <h2 id="hello-classes">
+   Hello Classes
+  </h2>
+  <p>
+   A class is a descrition both the
+   <strong>
+    state
+   </strong>
+   and the
+   <strong>
+    behaviour
+   </strong>
+   of an Object.
+   <br/>
+   Think about the state of a traffic light. At any point what are the possible state a traffic light can be?
+  </p>
+  <h1 id="interfaces">
+   Interfaces
+  </h1>
+  <p>
+   In the Java programming language, an interface is not a class but a set of requirements for
+   <br/>
+   classes that want to conform to the interface.
+  </p>
+  <h2 id="sorting-and-icomparable-interface">
+   Sorting and IComparable Interface
+  </h2>
+  <pre><code class="java">    /**
+     * 
+     * @param lhs
+     * @param rhs
+     * @return True if lhs is strictly greater than rhs
+     */
+    boolean compare( final IComparable rhs);
+
+}
+</code></pre>
+  <p>
+   We want to write a sorting function that is able to sort all objects that implements the interface
+   <code>
+    Icomparable
+   </code>
+  </p>
+  <pre><code class="java">public class BubbleSorter {
+
+
+    public static void sort(IComparable[] elements){
+        boolean go = true;
+        while(go){
+            go=false;
+            for(int i=0 ; i&lt; elements.length-1; i++){
+                if((elements[i].compare(elements[i+1])))
+                {
+                    IComparable t=elements[i];
+                    elements[i]=elements[i+1];
+                    elements[i+1]=t;
+                    go=true;
+                }
+            }
+        }
+    }
+
+}
+
+</code></pre>
+  <p>
+   Let’s implement a class Person which supports the compare funcitonality.
+  </p>
+  <pre><code class="java">package Sorting;
+
+public class Person implements IComparable{
+
+    private String name;
+    private Integer age;
+    @Override
+    public boolean compare(IComparable rhs) {
+        if(name.length() &gt; ((Person)rhs).name.length())
+            return true;
+        else
+            if(name.length() &lt; ((Person)rhs).name.length())
+                return false;
+
+        return (age &gt; ((Person)rhs).age) ? true : false;
+    }
+
+    @Override
+    public String toString() {
+//      String s = name.length()+" ";
+//      return s;
+        StringBuilder sb = new StringBuilder();
+        sb.append("[" + name);
+        sb.append(" "+age+"]");
+        return sb.toString();
+
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     * @return the age
+     */
+    public Integer getAge() {
+        return age;
+    }
+    /**
+     * @param age the age to set
+     */
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+
+
+}
+
+
+</code></pre>
+  <p>
+   Bubble sorter is a general, since it can sort objects of different kind as soon as they implements the interface.
+  </p>
+  <pre><code class="java">    @Test
+    public void testBubbleSort(){
+
+        Random r = new Random(System.currentTimeMillis());
+        IComparable[] persons = new Person[100];
+        for (int i = 0; i &lt; persons.length; i++) {
+            int l = 1+r.nextInt(20);
+            persons[i] = new Person(); 
+            ((Person)persons[i]).setAge( 1+ r.nextInt(100));
+
+            ((Person)persons[i]).setName(RandomString.randomAlphanumericString(l));
+        }
+
+        for (int i = 0; i &lt; persons.length; i++) {
+            System.out.print(persons[i].toString() + " ");
+
+        }
+        System.out.println();
+        BubbleSorter.sort(persons);
+        for (int i = 0; i &lt; persons.length; i++) {
+            System.out.print(persons[i].toString()+ " ");
+        }
+        System.out.println();
+
+    }
+
+    public static void main(String[] args) {
+        BubbleSorterTest bst = new BubbleSorterTest();
+        bst.testBubbleSort();
+
+    }
+
+}
+</code></pre>
+  <p>
+   Do computer programs have a state? If yes what are the
+   <em>
+    variables
+   </em>
+   of a computer program state?
+  </p>
+  <h3 id="bookstore">
+   Bookstore
+  </h3>
+  <p>
+   Show the implementation in Eclipse.
+  </p>
+  <p>
+   What are getters and setters?
+   <br/>
+   Show how to automatically generate them using
+   <em>
+    eclipse
+   </em>
+  </p>
+  <ul>
+   <li>
+    <em>
+     Source -&gt; Generate Getters and Setters
+    </em>
+   </li>
+   <li>
+    <em>
+     Source -&gt; Generate toString
+    </em>
+    thanks to Paola Arcuri
+   </li>
+  </ul>
+  <pre><code class="java">import java.util.Date;
+
+/**
+* A object representing a simplified version of a book.
+* A book has a Date of publishing, an author, a number of pages expressed as an integer and 
+* a String representing the International Standard Book Number.
+* 
+* @author Davide Spataro
+*/
+public class Book {
+
+    private String author;
+    private Date year;
+    private int npages;
+    private String ISBN;
+
+
+
+}
+
+</code></pre>
+  <pre><code class="java">package BookStore;
+
+/
+public class BookStore {
+
+    private Book[] library;
+
+
+}
+</code></pre>
+  <p>
+   Make sure you get how to comment the code in the proper way. Check out the  Chapter 4 of the
+   <code>
+    Java Core I
+   </code>
+   book.
+  </p>
+  <p>
+   <strong>
+    How to implement the remove method?
+   </strong>
+  </p>
+  <p>
+   <strong>
+    What about the search method?
+   </strong>
+  </p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>

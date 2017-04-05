@@ -1,87 +1,190 @@
-
-#Assignment - Implementing a simple Collision System
-
-
-Given the following interface which exposes a method `collide` which takes a non-modifiable **Collidable** as a parameter returns true if `caller` collides with the given `Collidable` parameter.
-
-```java
-
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   IGPE - Collision System Assignment
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   h1,h2,h3,h4{color:#6495ed}body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}body{font-family:Helvetica,Arial,sans-serif}h1,h2{text-align:center}blockquote{background:#f9f9f9;border-left:10px solid #6495ed;margin:1.5em 10px;padding:.5em 10px;font-style:italic}blockquote p{display:inline}hr{clear:both;float:none;width:100%;height:2.5px;margin:1.4em 0;border:none;background:#ddd;background:-webkit-gradient(linear,left bottom,right bottom,color-stop(0,#fff),color-stop(.1,#ddd),color-stop(.9,#ddd),color-stop(1,#fff)) #ddd;background:-moz-linear-gradient(left center,#fff 0,#ddd 10%,#ddd 90%,#fff 100%) #ddd}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr th{font-weight:700}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none;background:0 0}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h1 id="assignment-implementing-a-simple-collision-system">
+   Assignment - Implementing a simple Collision System
+  </h1>
+  <p>
+   Given the following interface which exposes a method
+   <code>
+    collide
+   </code>
+   which takes a non-modifiable
+   <strong>
+    Collidable
+   </strong>
+   as a parameter returns true if
+   <code>
+    caller
+   </code>
+   collides with the given
+   <code>
+    Collidable
+   </code>
+   parameter.
+  </p>
+  <pre><code class="java">
 public interface ICollidable {
-	
-	public boolean collide(ICollidable c);
+
+    public boolean collide(ICollidable c);
 
 }
 
-```
+</code></pre>
+  <p>
+   Create a class
+   <strong>
+    Box
+   </strong>
+   and implements
+   <code>
+    ICollidable
+   </code>
+   and stores fields  describing a  2D box in space.
+  </p>
+  <hr/>
+  <p>
+   Two boxes collide if they share some portion on the space.
+   <br/>
+   <em>
+    This is a blurry definition, you have to come up with a more formal and mathematical description of what collision means.
+   </em>
+  </p>
+  <p>
+   <code>
+    Box
+   </code>
+   must also override the
+   <code>
+    toString
+   </code>
+   method from
+   <code>
+    Object
+   </code>
+   superclass.
+  </p>
+  <p>
+   The following image gives you a (big) hint on how to formalize collisions in two 2D.
+   <br/>
+   <img alt="alt text" src="images/collision.png" title="Collision detection in 2D"/>
+   <br/>
+   Pink and blue boxes are colliding while green and blue are not for instance.
+  </p>
+  <p>
+   Create a class Arena which stores information about a set of Collidable Objects and exposes a method with the following signatures.
+   <br/>
+   <code>
+    Arena
+   </code>
+   stores an array of
+   <code>
+    Collidable
+   </code>
+   which size (can be assumed) never exceed
+   <code>
+    1000
+   </code>
+   ;
+  </p>
+  <pre><code class="java">
+    public void checkCollisions(){
 
-Create a class **Box**  and implements `ICollidable` and stores fields  describing a  2D box in space.
- 
-***
- Two boxes collide if they share some portion on the space. 
-* This is a blurry definition, you have to come up with a more formal and mathematical description of what collision means.*
+    }
 
-`Box` must also override the `toString` method from `Object` superclass.
+    @Override
+    public String toString() {
 
-The following image gives you a (big) hint on how to formalize collisions in two 2D. 
-![alt text](images/collision.png "Collision detection in 2D")
-Pink and blue boxes are colliding while green and blue are not for instance. 
+    }
+</code></pre>
+  <p>
+   <code>
+    checkCollisions
+   </code>
+   should check for all collision between all
+   <code>
+    ICollidable
+   </code>
+   objects. On the event of a collision between two objects
+   <strong>
+    A and B
+   </strong>
+   it should print the following:
+  </p>
+  <pre><code class="java">    System.out.println("Collision: " +  A.toString() + " "+ B.toString());
+</code></pre>
+  <p>
+   <code>
+    toString
+   </code>
+   takes care of drawing the Arena to standard output (console). Draw the boundaries of the Area using the plus
+   <code>
+    +
+   </code>
+   , character.
+   <br/>
+   Boxes must be drawn using the point
+   <code>
+    .
+   </code>
+   character and corner using the
+   <code>
+    +
+   </code>
+   character.
+   <br/>
+   You can always assume that Collidable Objects coordinates are never lower than
+   <code>
+    0
+   </code>
+   or greater than
+   <code>
+    99
+   </code>
+   .
+  </p>
+  <p>
+   In order to test out collision detection system, you should also provide a
+   <code>
+    init
+   </code>
+   function which inits boxes randomly (within arena boundaries) and a main which will execute a demo.
+  </p>
+  <pre><code class="java">    public static void main(String[] args) {
+        Arena a = new Arena();
+        a.initArena(10); //initialize arena with 10 random Box
 
+        System.out.println(a.toString()); // Print the Arena
 
-Create a class Arena which stores information about a set of Collidable Objects and exposes a method with the following signatures. 
-`Arena`  stores an array of `Collidable` which size (can be assumed) never exceed `1000`;
+        a.checkCollisions(); // Detect collisions and print them out on stdout
+    }
 
-```java
+    //init arena should init boxes randomly.
 
-	public void checkCollisions(){
-	
-	}
-	
-	@Override
-	public String toString() {
-	
-	}
-```
-
-`checkCollisions` should check for all collision between all `ICollidable` objects. On the event of a collision between two objects **A and B** it should print the following:
-
-
-```java
-	System.out.println("Collision: " +  A.toString() + " "+ B.toString());
-```
-
-
-`toString` takes care of drawing the Arena to standard output (console). Draw the boundaries of the Area using the plus `+`, character.
-Boxes must be drawn using the point `.` character and corner using the `+` character.
-You can always assume that Collidable Objects coordinates are never lower than `0` or greater than `99`.
-
-
-In order to test out collision detection system, you should also provide a `init` function which inits boxes randomly (within arena boundaries) and a main which will execute a demo.
-```java
-	public static void main(String[] args) {
-		Arena a = new Arena();
-		a.initArena(10); //initialize arena with 10 random Box
-		
-		System.out.println(a.toString()); // Print the Arena
-		
-		a.checkCollisions(); // Detect collisions and print them out on stdout
-	}
-	
-	//init arena should init boxes randomly.
-	
-	public void initArena(final int NO){
-		Random r = new Random(System.currentTimeMillis());
-		objects = new Box[NO];
-		for(int i=0; i<NO; i++){
-			//function that creates a random box
-			Box br=createRandomBox(r,....);
-			objects[i] =br;
-		}
-	}
-```
-
-The following is the kind of result you should aim to obtain.
-```
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    public void initArena(final int NO){
+        Random r = new Random(System.currentTimeMillis());
+        objects = new Box[NO];
+        for(int i=0; i&lt;NO; i++){
+            //function that creates a random box
+            Box br=createRandomBox(r,....);
+            objects[i] =br;
+        }
+    }
+</code></pre>
+  <p>
+   The following is the kind of result you should aim to obtain.
+  </p>
+  <pre><code>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +                                                                                                  +
 +                                                                                                  +
 +                                                                                                  +
@@ -185,10 +288,30 @@ The following is the kind of result you should aim to obtain.
 Collision:  60:49-5:10  19:58-60:14
 Collision:  60:49-5:10  52:10-35:45
 
-```
-
-##Final Remarks
-What is the complexity of the `checkCollision`method? 
-Do you think it can be used in a game? 
-Can it be used in a game, even if the number of objects is, more than 1000?
-
+</code></pre>
+  <h2 id="final-remarks">
+   Final Remarks
+  </h2>
+  <p>
+   What is the complexity of the
+   <code>
+    checkCollision
+   </code>
+   method?
+   <br/>
+   Do you think it can be used in a game?
+   <br/>
+   Can it be used in a game, even if the number of objects is, more than 1000?
+  </p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>

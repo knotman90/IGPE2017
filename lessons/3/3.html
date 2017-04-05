@@ -1,0 +1,474 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   IGPE - Solution to Collysion System Assignment
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}hr,pre code{background:0 0}body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;padding:10px 15px}strong,table tr th{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}blockquote{padding:0 15px;border-left:4px solid #ccc}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h1 id="interfacce-grafice-e-programmazione-ad-eventi-igpe">
+   Interfacce Grafice e Programmazione ad Eventi - IGPE
+  </h1>
+  <hr/>
+  <h2 id="collision-system-assignment-solution">
+   Collision System Assignment Solution
+  </h2>
+  <p>
+   A good representation for the
+   <code>
+    Box
+   </code>
+   could be
+  </p>
+  <p>
+   <code>
+    (r,c,h,w)
+   </code>
+   where (r,c) represents the coordinates of the upper left corner and
+   <code>
+    h
+   </code>
+   and
+   <code>
+    w
+   </code>
+   the height and width, respectively.
+   <br/>
+   - two double precision variables for the upper left corner
+  </p>
+  <p>
+   The  idea behind the collides methods is the following:
+   <br/>
+   - Think when two boxes
+   <strong>
+    do not collide
+   </strong>
+   . It’s easier.
+   <br/>
+   - Two boxes then collide when it’s false that they do not collide.
+  </p>
+  <p>
+   If
+   <code>
+    AX
+   </code>
+   is the right coordinate  along x directrion of the
+   <code>
+    A
+   </code>
+   and
+   <code>
+    BX
+   </code>
+   is the right  coordinate along x direction of
+   <code>
+    B
+   </code>
+   then
+   <br/>
+   and AY and BY the botton coordinate along the
+   <code>
+    y
+   </code>
+   direction then two boxes do not collide if:
+  </p>
+  <ul>
+   <li>
+    <code>
+     B.x
+    </code>
+    is at right of
+    <code>
+     AX
+    </code>
+   </li>
+  </ul>
+  <pre><code class="java">++++++++++++++++++++
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++ +...+      +...+ +
++ .   .      .   . +
++ . A .      .B  . +
++ .   .      .   . +
++ +...+      .   . +
++            +...+ +
+++++++++++++++++++++
+  ^   ^      ^   ^
+  |   |      |   |
+ A.x  AX    B.x  BX
+</code></pre>
+  <ul>
+   <li>
+    <code>
+     A.x
+    </code>
+    is at right of
+    <code>
+     BX
+    </code>
+   </li>
+  </ul>
+  <pre><code class="java">++++++++++++++++++++
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++ +...+      +...+ +
++ .   .      .   . +
++ . B .      .A  . +
++ .   .      .   . +
++ +...+      .   . +
++            +...+ +
+++++++++++++++++++++
+  ^   ^      ^   ^
+  |   |      |   |
+ B.x  BX    A.x  AX
+</code></pre>
+  <ul>
+   <li>
+    Same reasoning hold for the
+    <code>
+     y
+    </code>
+    direction.
+   </li>
+  </ul>
+  <pre><code class="java">++++++++++++++++++++
++                  +
++                  +
++                  +
++        +.+       + &lt;---A.y
++        .A.       +
++        . .       +
++        +.+       + &lt;---AY
++                  +
++                  +
++          +....+  + &lt;--- B.y
++          .    .  +
++          .    .  +
++          .    .  +
++          .  B .  +
++          .    .  +
++          .    .  +
++          .    .  +
++          +....+  + &lt;--- BY
+++++++++++++++++++++
+</code></pre>
+  <p>
+   If none of this condition is true then there is a collision!
+   <br/>
+   <code>
+    return !( (AX &lt; bc.x) || (BX &lt; x) || (AY &lt; bc.y) || (BY &lt; y) );
+   </code>
+  </p>
+  <p>
+   Using Boleean algebra law it translates to (remember?
+   <code>
+    !(A OR B)
+   </code>
+   =
+   <code>
+    !A AND !B
+   </code>
+   ):
+   <br/>
+   <code>
+    return ( (AX &gt;= bc.x) &amp;&amp; (BX &gt;= x) &amp;&amp; (AY &gt;= bc.y) &amp;&amp; (BY &gt;= y) );
+   </code>
+  </p>
+  <pre><code>  01234567890123456789
+ 0+++++++++++++++++++++
+ 1+     |  |         +
+ 2+     |  |         +
+ 3+     |  |         +
+ 4+     |  |         +
+ 5+     |  |         +
+ 6+     |  |         +
+ 7+________+........++
+ 8+     |  .        .+
+ 9+     |  .    A   .+
+ 0+_____+..........+.+
+ 1+     .  .       ..+
+ 2+     .  +........++
+ 3+     .          . +
+ 4+     .    B     . +
+ 5+     .          . +
+ 6+     +..........+ +
+ 7+                  +
+ 8+                  +
+  ++++++++++++++++++++
+</code></pre>
+  <h2 id="examples">
+   Examples
+  </h2>
+  <pre><code>A.x=9   B.x=6
+A.y=7   B.y=10
+AX=18   BX=17
+AY=12   BY=16
+
+AX&gt;=B.x is true! 18&gt;=6
+BX&gt;=A.x is true! 17&gt;=9
+AY&gt;=B.y is true! 12&gt;=10
+BY&gt;=A.y is true! 16&gt;=7 
+We have a collision here!
+</code></pre>
+  <pre><code>++++++++++++++++++++
++                  +
++                  +
++                  +
++   +.....+        +
++   .     .        +
++   .     .        +
++   +.....+        +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++                  +
++     +....+       +
++     .    .       +
++     +....+       +
++                  +
+++++++++++++++++++++
+</code></pre>
+  <pre><code>A.x=2   B.x=6
+A.y=4   B.y=15
+AX=8    BX=11
+AY=7    BY=17
+
+AX&gt;=B.x is true! 8&gt;=6
+BX&gt;=A.x is true! 11&gt;=2
+Intersect along x axis
+BY&gt;=A.y is true! 17&gt;=4 
+AY&gt;=B.y is **false**! 7&gt;=15 is false
+No Collision
+</code></pre>
+  <pre><code class="java">public class Box implements ICollidable{
+    /**
+        Coordinate of the upper left corner
+    */
+    private int x;
+    private int y;
+
+    // width
+    private int w;
+    //height
+    private int h;
+
+    public Box(final int _x, final int _y, final int _w, final int _h) {
+        if(_w &lt;=0 || _h &lt;=0)
+            throw new IllegalArgumentException("Box cannot have negative or zero size in any dimension");
+        x=_x;
+        y=_y;
+        w=_w;
+        h=_h;
+    }
+
+    @Override
+    public boolean collide(ICollidable c)  {
+    //AX,AY right and bottom coordinates
+
+        int AX,AY,BX,BY; 
+        if(c instanceof Box){
+            Box bc = (Box)c;
+            BX=bc.x+bc.w;
+            BY=bc.y+bc.h;
+            AX=x+w;
+            AY=y+h;
+            return !( (AX &lt; bc.x) || (BX &lt; x) || (AY &lt; bc.y) || (BY &lt; y) );
+        }
+        return false;           
+    }
+
+
+        @Override
+    public String toString() {
+        String s = " " +x+":" +y+"-"+w+":"+h;
+        return s;
+
+    }
+    //getters and setters
+
+</code></pre>
+  <h2 id="checkcollision">
+   CheckCollision
+  </h2>
+  <p>
+   The check Collision method is super easy to implement. Check all possible pair of Box in the Area for collision making sure you donìt check two pair two times!
+  </p>
+  <pre><code class="java">    public void checkCollisions(){
+        for(int i=0; i &lt; objects.length ; i++ ){
+            for(int j=i+1; j &lt; objects.length ; j++ ){
+                if(objects[i].collide(objects[j])){
+                    handleCollision(objects[i],objects[j]);
+                }
+            }
+        }
+
+</code></pre>
+  <p>
+   Complexity is quadratic in the number of boxes. Be aware that is it not only
+   <mathjax>
+    $O(n^2)$
+   </mathjax>
+   but also
+   <mathjax>
+    $\Omega(N^2)$
+   </mathjax>
+   ! This means that even the best case is quadratic which makes the complexity of the method
+   <mathjax>
+    $\Theta(N^2)$
+   </mathjax>
+   !
+  </p>
+  <h2 id="collision-system-assignment-dos-and-donts">
+   Collision System Assignment Dos and Don’ts
+  </h2>
+  <h3 id="write-documentation">
+   Write documentation!
+  </h3>
+  <ul>
+   <li>
+    How could you even think that a work peer is able to
+    <strong>
+     understand
+    </strong>
+    code you wrote which is not documented well?
+   </li>
+  </ul>
+  <pre><code class="java">public class Box implements ICollidable {
+
+    Pair sx, dx;
+
+    public Box (int x1, int y1, int x2, int y2){
+        if (x1 &gt; x2 &amp;&amp; y1 &lt; y2){
+            sx = new Pair (x2, y1);
+            dx = new Pair (x1, y2);
+        }
+
+        else if (x1 &gt; x2 &amp;&amp; y1 &gt; y2){
+            sx = new Pair (x2, y2);
+            dx = new Pair (x1, y1);
+        }
+
+        else if (x1 &lt; x2 &amp;&amp; y1 &lt; y2){
+            sx = new Pair (x1, y1);
+            dx = new Pair (x2, y2);
+        }
+
+        else{
+            sx = new Pair (x1, y2);
+            dx = new Pair (x2, y1);
+        }
+    }
+
+</code></pre>
+  <ul>
+   <li>
+    What the Pair sx and dx mean?
+   </li>
+  </ul>
+  <p>
+   The following is much better!
+  </p>
+  <pre><code class="java">public class Box implements ICollidable{
+
+    private int x_corner_sx; // x coordinate of an imaginary matrix that is in Arena
+    private int y_corner_sx; // y coordinate of an imaginary matrix that is in Arena
+    private int base; // the length of the Box's base
+    private int height; // the length of the Box's height
+
+    // check with a mathematical model if two ICollidable have some parts in common
+    public boolean collide(ICollidable c1){
+        if(c1 instanceof Box){
+        Box c=(Box)c1;
+        if(((x_corner_sx&gt;=c.x_corner_sx &amp;&amp; x_corner_sx&lt;c.x_corner_sx+c.base) || (c.x_corner_sx&gt;=x_corner_sx &amp;&amp; c.x_corner_sx&lt;x_corner_sx+base))
+                &amp;&amp;((y_corner_sx&gt;=c.y_corner_sx &amp;&amp; y_corner_sx&lt;c.y_corner_sx+c.height) ||(c.y_corner_sx&gt;=y_corner_sx &amp;&amp; c.y_corner_sx&lt;y_corner_sx+height)))
+            return true;
+        }
+        return false;
+    }
+
+</code></pre>
+  <h3 id="check-all-points-inside-a-box">
+   Check all points inside a Box
+  </h3>
+  <pre><code class="java">@Override
+    public boolean collide(ICollidable c) {
+        Box b=new Box();
+        if(c instanceof Box)
+            b=(Box)c;
+        for(int i=b.NO.getX();i&lt;=b.SO.getX();i++)
+            for(int j=b.NO.getY();j&lt;=b.NE.getY();j++)
+                if(i == b.NO.getX() || i==b.SO.getX() || j==b.NO.getY() || j==b.NE.getY()){
+                    Punto p=new Punto(i,j);
+                    if(p.getX()&gt;=this.NO.getX() &amp;&amp; p.getX()&lt;=this.SE.getX() &amp;&amp; p.getY()&gt;=this.NO.getY() &amp;&amp; p.getY()&lt;=this.SE.getY()){
+                        System.out.println("Collision: " +  this.toString() + " "+ b.toString());
+                        return true;                        
+                    }
+
+                }
+        return false;
+    }
+</code></pre>
+  <p>
+   This method checks all points inside a Box! Has itself a complexity of
+   <mathjax>
+    $Box.WIDHT \times Box.HEIGHT$
+   </mathjax>
+   making the check collision overall complexity
+   <mathjax>
+    $O(n^2 \times SIZE^2)$
+   </mathjax>
+  </p>
+  <h3 id="using-an-hashset-or-treeset">
+   Using an Hashset or TreeSet
+  </h3>
+  <p>
+   A simple plain array was enough!
+  </p>
+  <pre><code class="java">public class Arena {
+
+    Set&lt;Box&gt; boxes;
+
+    Arena (int parameter)
+    {
+        boxes = new TreeSet&lt;Box&gt;();
+</code></pre>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>
